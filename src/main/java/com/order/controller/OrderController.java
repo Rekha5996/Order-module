@@ -26,24 +26,26 @@ public class OrderController {
 	@Autowired
 	private OrderRepo orepo;
 	
-	//get order details based on user id
-	@GetMapping("/orderdetails")
-	public List<Order> getOrderDetails(){
-		List<Order> lst=orepo.findAll();
-				return lst;
-	}
 	//place an order
-		@PostMapping("/placeorder")
-		public String CreateProduct(@RequestBody OrderDto order) {
-			 orepo.save(order.getOrder());
-               return "Your order is placed";	
-		}
+			@PostMapping("/placeorder")
+			public String PlaceOrder(@RequestBody OrderDto order) {
+				 orepo.save(order.getOrder());
+	               return "Your order is placed successfully";	
+			}
+			
+	// fetch order history based on user ID
+	@GetMapping("/orderdetails/{uid}")
+	public Order getOrderDetails(@PathVariable("uid") int user_id){
+		return orepo.findById((long) user_id)
+				.orElseThrow(() -> new ResourceNotFoundException("Order not found with user id:"+user_id)); 
+	}
+	
 		//update order details
 		@PutMapping("/updateorder/{oid}")
-		public Order updateUser(@RequestBody Order order, @PathVariable("oid") long id) {
+		public Order updateOrderDetails(@RequestBody Order order, @PathVariable("oid") long id) {
 			Order oorder=orepo.findById(id)
 					.orElseThrow(() -> new ResourceNotFoundException("Order not found with id:"+id)); 			
-			oorder.setDelivery_date(order.getDelivery_date());
+			
 			oorder.setOrder_date(order.getOrder_date());
 			oorder.setOrder_details(order.getOrder_details());
 			oorder.setOrder_status(order.getOrder_status());
@@ -54,7 +56,7 @@ public class OrderController {
 			}
 		//cancel the order
 			@DeleteMapping("/cancelorder/{oid}")
-			public ResponseEntity<Order> deleteUser(@PathVariable("oid")long id) {
+			public ResponseEntity<Order> CancelOrder(@PathVariable("oid")long id) {
 				Order oorder=orepo.findById(id)
 						.orElseThrow(() -> new ResourceNotFoundException("Order not found with id:"+id));
 				orepo.delete(oorder);

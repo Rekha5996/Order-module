@@ -3,6 +3,10 @@ package com.order;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author Vuntla Rekhasree
+ *
+ */
 @SpringBootApplication
 public class OrderModuleApplication {
 

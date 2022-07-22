@@ -25,10 +25,11 @@ public class Product {
 	
 	@Id
 	private long pid;
-	private String pname;
-	private String pdesc;
-	private int price;
-	private int quantity; 
+	private String productName;
+	private String brandName;
+	private String  productDesc;
+	private int productPrice;
+	private int productQtn; 
 	
 
 }
